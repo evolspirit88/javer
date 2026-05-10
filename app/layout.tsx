@@ -5,6 +5,7 @@ import './globals.css'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import ProgressBar from '@/components/ProgressBar'
+import { Analytics } from '@vercel/analytics/next'
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'], weight: ['300','400','500','600','700'],
@@ -59,6 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
         <Footer />
         <ProgressBar />
+        <Analytics />
       </body>
     </html>
   )
