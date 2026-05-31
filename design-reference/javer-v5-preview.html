@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Javer — Performance Digital Marketing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --ink:     #0A0908;
+  --ink2:    #141210;
+  --ink3:    #1E1B17;
+  --gold:    #C9A96E;
+  --gold2:   #E2C07A;
+  --cream:   #F5F0E8;
+  --chalk:   #FDFAF5;
+  --forest:  #2B4237;
+  --forest2: #3D5E50;
+  --serif:   'Cormorant Garamond', Georgia, serif;
+  --sans:    'DM Sans', system-ui, sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:var(--sans);background:var(--ink);color:var(--cream);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;width:100%;height:100%;object-fit:cover}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--gold)}
+
+/* ─── PROGRESS BAR ─── */
+#prog{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--forest2),var(--gold));z-index:9999}
+
+/* ─── GRAIN ─── */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.04;pointer-events:none;z-index:9990}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:800;height:80px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;transition:all .4s;border-bottom:1px solid transparent}
+nav.s{background:rgba(10,9,8,.92);backdrop-filter:blur(20px);border-bottom-color:rgba(201,169,110,.1)}
+.logo{font-family:var(--serif);font-size:32px;font-weight:700;font-style:italic;color:var(--cream);text-decoration:none;letter-spacing:-.3px}
+.logo em{color:var(--gold);font-style:inherit}
+.nav-r{display:flex;align-items:center;gap:20px}
+.nav-ph{font-size:12px;font-weight:600;color:rgba(245,240,232,.5);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s;letter-spacing:.03em}
+.nav-ph:hover,.nav-ph svg{color:var(--gold)}
+.nav-links{display:flex;gap:0;list-style:none}
+.nav-links a{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,240,232,.55);text-decoration:none;padding:10px 16px;transition:color .2s}
+.nav-links a:hover{color:var(--cream)}
+
+/* ─── BUTTONS ─── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;border-radius:2px;transition:all .25s;padding:15px 32px}
+.btn-g{background:var(--gold);color:var(--ink)}
+.btn-g:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 16px 40px rgba(201,169,110,.3)}
+.btn-o{background:transparent;color:var(--cream);border:1.5px solid rgba(245,240,232,.25)}
+.btn-o:hover{border-color:rgba(245,240,232,.6);transform:translateY(-1px)}
+.btn-f{background:var(--forest);color:var(--chalk)}
+.btn-f:hover{background:var(--forest2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(43,66,55,.4)}
+
+@media(max-width:900px){nav{padding:0 20px}.nav-links{display:none}}
+
+/* ─── MOBILE STICKY ─── */
+.mob{display:none;position:fixed;bottom:0;left:0;right:0;z-index:700;background:var(--forest);padding:12px 16px;transform:translateY(100%);transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.mob.show{transform:translateY(0)}
+.mob a{display:block;text-align:center;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--chalk);text-decoration:none;background:rgba(255,255,255,.12);padding:15px;border-radius:2px}
+@media(max-width:900px){.mob{display:block}}
+
+/* ═══ HERO ══════════════════════════════════ */
+#hero{height:100vh;min-height:700px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
+.hero-bg{position:absolute;inset:0;animation:kenBurns 24s ease-in-out infinite alternate}
+.hero-bg img{width:100%;height:100%;object-fit:cover}
+
+/* MUCH stronger overlay for text legibility */
+.hero-ov{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(to top,
+      rgba(10,9,8,.98) 0%,
+      rgba(10,9,8,.88) 25%,
+      rgba(10,9,8,.55) 55%,
+      rgba(10,9,8,.2) 100%),
+    linear-gradient(105deg,
+      rgba(10,9,8,.7) 0%,
+      rgba(10,9,8,.2) 50%,
+      transparent 100%);
+}
+.hero-vign{position:absolute;inset:0;background:radial-gradient(ellipse 140% 140% at 50% 50%,transparent 30%,rgba(10,9,8,.7) 100%)}
+
+/* Gold horizon */
+.hero-hor{position:absolute;top:50%;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,169,110,.6) 30%,rgba(201,169,110,.8) 50%,rgba(201,169,110,.6) 70%,transparent);pointer-events:none}
+
+.hero-c{position:relative;z-index:2;padding:0 52px 72px;max-width:1280px;margin:0 auto;width:100%}
+
+.hero-tag{display:inline-flex;align-items:center;gap:14px;font-size:11px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;opacity:0;animation:up .7s .15s ease forwards}
+.hero-tag::before{content:'';width:32px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+
+/* LARGE, BOLD, CLEAR headline */
+.hero-h{
+  font-family:var(--serif);font-weight:700;font-style:italic;
+  font-size:clamp(60px,8.5vw,110px);
+  line-height:.85;letter-spacing:-.05em;
+  color:var(--cream);
+  text-shadow:0 4px 60px rgba(0,0,0,.8), 0 2px 20px rgba(0,0,0,.9);
+  margin-bottom:24px;
+  opacity:0;animation:up .95s .05s cubic-bezier(.16,1,.3,1) forwards;
+}
+.hero-h .g{color:var(--gold)}
+
+/* CLEAR sub-headline — large enough to read instantly */
+.hero-value{font-size:clamp(22px,2.4vw,32px);font-weight:700;color:var(--cream);line-height:1.25;max-width:580px;text-shadow:0 3px 28px rgba(0,0,0,.9);margin:14px 0 10px;opacity:0;animation:up .7s .18s ease forwards;letter-spacing:-.01em}
+.hero-sub{font-size:clamp(18px,1.9vw,23px);font-weight:600;color:rgba(245,240,232,.92);line-height:1.55;max-width:540px;text-shadow:0 2px 20px rgba(0,0,0,.85);margin-bottom:30px;opacity:0;animation:up .7s .28s ease forwards;letter-spacing:.005em}
+
+.hero-div{width:100%;height:1px;background:linear-gradient(90deg,rgba(201,169,110,.5),rgba(201,169,110,.15) 40%,transparent);margin-bottom:28px;opacity:0;animation:up .5s .4s ease forwards}
+.hero-btm{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;opacity:0;animation:up .7s .5s ease forwards}
+.hero-ph{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:rgba(245,240,232,.55);text-decoration:none;letter-spacing:.03em;transition:color .2s}
+.hero-ph:hover{color:var(--gold)}
+.hero-ph svg{color:var(--forest2)}
+
+.hero-urgency{display:inline-flex;align-items:center;gap:8px;background:rgba(43,66,55,.5);border:1px solid rgba(61,94,80,.65);padding:7px 14px;border-radius:40px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,240,232,.88);margin-bottom:16px;opacity:0;animation:up .5s .42s ease forwards}
+.hero-urgency::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0;animation:urgPulse 2s ease-in-out infinite}
+@keyframes urgPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
+.scroll-cue{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeIn 1s 1.2s ease forwards}
+.scroll-cue span{font-size:9px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:rgba(245,240,232,.3)}
+.scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,rgba(201,169,110,.6),transparent);animation:pulse 2.2s 1.5s ease-in-out infinite}
+
+@keyframes kenBurns{from{transform:scale(1) translateX(0)}to{transform:scale(1.08) translateX(-1%)}}
+@keyframes up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+@media(max-width:768px){.hero-c{padding:0 20px 60px}.hero-btm{grid-template-columns:1fr}}
+
+/* ─── TRUST BAR ─── */
+.tb{background:#111009;padding:15px 52px;border-top:1px solid rgba(201,169,110,.1);border-bottom:1px solid rgba(201,169,110,.1)}
+.tb-in{max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.tb-p{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.45)}
+.tb-p::before{content:'◆';font-size:7px;color:var(--forest2)}
+.tb-s{font-family:var(--serif);font-size:22px;font-weight:700;font-style:italic;color:rgba(245,240,232,.85);padding-left:20px;border-left:1px solid rgba(245,240,232,.08);display:flex;align-items:center;gap:10px}
+.tb-sl{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.3);line-height:1.4;font-style:normal}
+@media(max-width:700px){.tb{padding:12px 20px}}
+
+/* ─── REVEAL ─── */
+[data-r]{opacity:0;transition:opacity .85s cubic-bezier(.22,1,.36,1),transform .85s cubic-bezier(.22,1,.36,1)}
+[data-r=u]{transform:translateY(40px)}[data-r=u].on{opacity:1;transform:none}
+[data-r=l]{transform:translateX(-40px)}[data-r=l].on{opacity:1;transform:none}
+[data-r=r]{transform:translateX(40px)}[data-r=r].on{opacity:1;transform:none}
+[data-r=s]{transform:scale(.95)}[data-r=s].on{opacity:1;transform:none}
+
+/* ═══ MANIFESTO ════════════════════════════════ */
+#manifesto{background:var(--ink);padding:100px 52px;border-bottom:1px solid rgba(201,169,110,.08)}
+.manifesto-grid{display:grid;grid-template-columns:1fr 2.2fr;gap:80px;align-items:start;max-width:1280px;margin:0 auto}
+.eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:10px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.eyebrow::before{content:'';display:block;width:22px;height:1px;background:var(--gold)}
+
+/* BIG manifesto quote — very readable */
+.mq{
+  font-family:var(--serif);
+  font-size:clamp(30px,3.8vw,56px);
+  font-weight:700;font-style:italic;
+  color:var(--chalk);
+  line-height:1.2;letter-spacing:-.02em;
+  text-shadow:none;
+}
+.mq em{color:var(--gold);font-style:inherit;position:relative}
+.mq em::after{content:'';position:absolute;left:0;right:0;bottom:-3px;height:1.5px;background:linear-gradient(90deg,var(--gold),transparent)}
+.mq-source{display:flex;align-items:center;gap:16px;margin-top:32px;padding-top:28px;border-top:1px solid rgba(245,240,232,.08);font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(245,240,232,.35)}
+.mq-source::before{content:'';display:block;width:28px;height:1px;background:rgba(245,240,232,.2)}
+@media(max-width:900px){.manifesto-grid{grid-template-columns:1fr;gap:36px}#manifesto{padding:80px 20px}}
+
+/* ═══ SERVICE GRID ════════════════════════════ */
+#services{padding:0;background:var(--ink)}
+.svc-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto auto;gap:3px;background:rgba(245,240,232,.05)}
+.svc-card{position:relative;overflow:hidden;cursor:pointer;min-height:320px}
+.svc-card:nth-child(1){grid-column:1;grid-row:1/3;min-height:640px}
+.svc-card:nth-child(2){grid-column:2;grid-row:1}
+.svc-card:nth-child(3){grid-column:3;grid-row:1}
+.svc-card:nth-child(4){grid-column:2;grid-row:2}
+.svc-card:nth-child(5){grid-column:3;grid-row:2}
+.svc-img{position:absolute;inset:0;transition:transform .8s cubic-bezier(.22,1,.36,1)}
+.svc-img img{width:100%;height:100%;object-fit:cover}
+.svc-card:hover .svc-img{transform:scale(1.06)}
+
+/* Stronger overlay on service cards — text was invisible */
+.svc-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,8,.97) 0%,rgba(10,9,8,.7) 40%,rgba(10,9,8,.25) 100%);transition:background .4s}
+.svc-card:hover .svc-ov{background:linear-gradient(to top,rgba(10,9,8,1) 0%,rgba(10,9,8,.8) 45%,rgba(10,9,8,.35) 100%)}
+.svc-line{position:absolute;top:0;left:0;right:100%;height:3px;background:linear-gradient(90deg,var(--gold),var(--forest2));transition:right .5s cubic-bezier(.22,1,.36,1);z-index:3}
+.svc-card:hover .svc-line{right:0}
+.svc-txt{position:absolute;bottom:0;left:0;right:0;padding:clamp(20px,2.5vw,36px);z-index:2}
+.svc-n{font-size:10px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;opacity:.9}
+
+/* Service name — MUCH bigger and bolder */
+.svc-name{
+  font-family:var(--serif);
+  font-size:clamp(26px,2.8vw,42px);
+  font-weight:700;font-style:italic;
+  color:var(--chalk);
+  line-height:.95;letter-spacing:-.02em;
+  text-shadow:0 2px 20px rgba(0,0,0,.8);
+}
+.svc-desc{font-size:14px;font-weight:400;color:rgba(245,240,232,.75);line-height:1.6;margin-top:10px;max-width:380px;opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s}
+.svc-card:hover .svc-desc{opacity:1;transform:translateY(0)}
+.svc-cta{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);text-decoration:none;opacity:0;transform:translateY(8px);transition:opacity .4s .05s,transform .4s .05s}
+.svc-card:hover .svc-cta{opacity:1;transform:translateY(0)}
+
+@media(max-width:900px){.svc-grid{grid-template-columns:1fr 1fr}.svc-card:nth-child(1){grid-column:1/3;grid-row:1;min-height:52vw}.svc-card:nth-child(2){grid-column:1;grid-row:2;min-height:50vw}.svc-card:nth-child(3){grid-column:2;grid-row:2}.svc-card:nth-child(4){grid-column:1;grid-row:3}.svc-card:nth-child(5){grid-column:2;grid-row:3}}
+@media(max-width:600px){.svc-grid{grid-template-columns:1fr}.svc-card{min-height:70vw!important}.svc-card:nth-child(1),.svc-card:nth-child(2),.svc-card:nth-child(3),.svc-card:nth-child(4),.svc-card:nth-child(5){grid-column:1;grid-row:auto}}
+
+/* ═══ VIDEO ════════════════════════════════════ */
+#vid{position:relative;height:65vh;min-height:480px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.vid-frame{position:absolute;inset:-10%;overflow:hidden}
+.vid-frame iframe{position:absolute;top:50%;left:50%;width:120%;height:120%;transform:translate(-50%,-50%);border:none;pointer-events:none}
+.vid-fallback{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1600&q=80&auto=format&fit=crop') center/cover no-repeat;animation:kenBurns 18s ease-in-out infinite alternate}
+.vid-ov{position:absolute;inset:0;z-index:2;background:linear-gradient(to bottom,rgba(10,9,8,.5),rgba(10,9,8,.65)),radial-gradient(ellipse 100% 100% at 50% 50%,transparent 30%,rgba(10,9,8,.75) 100%)}
+.vid-txt{position:relative;z-index:3;text-align:center;padding:0 24px;display:flex;flex-direction:column;align-items:center;gap:20px}
+
+/* Video headline — large and unmissable */
+.vid-h{
+  font-family:var(--serif);
+  font-size:clamp(52px,8vw,112px);
+  font-weight:700;font-style:italic;
+  color:var(--chalk);
+  line-height:.88;letter-spacing:-.04em;
+  text-shadow:0 4px 40px rgba(0,0,0,.9);
+}
+.vid-h em{color:var(--gold);font-style:inherit}
+.vid-lbl{font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+
+/* ═══ STATS ════════════════════════════════════ */
+#stats{background:var(--ink3);padding:0;position:relative;overflow:hidden}
+#stats::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 20% 50%,rgba(43,66,55,.2) 0%,transparent 60%),radial-gradient(ellipse 60% 80% at 80% 50%,rgba(201,169,110,.07) 0%,transparent 60%);pointer-events:none}
+.stats-g{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);position:relative;z-index:1}
+.stat{padding:96px 52px;border-right:1px solid rgba(245,240,232,.06);position:relative;overflow:hidden;transition:background .4s}
+.stat:last-child{border-right:none}
+.stat:hover{background:rgba(245,240,232,.025)}
+.stat-line{position:absolute;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--gold),var(--forest2));transition:width .8s .1s cubic-bezier(.22,1,.36,1)}
+.stat.counted .stat-line{width:100%}
+
+/* Stat numbers — BIG, bright, unmissable */
+.stat-n{
+  font-family:var(--serif);font-weight:700;font-style:italic;
+  font-size:clamp(80px,10vw,130px);
+  color:var(--chalk);
+  line-height:1;display:flex;align-items:flex-start;
+  text-shadow:0 2px 30px rgba(0,0,0,.5);
+}
+.stat-sfx{font-family:var(--serif);font-size:.4em;color:var(--gold);line-height:1.5;margin-top:8px}
+.stat-lbl{font-size:16px;font-weight:500;color:rgba(245,240,232,.6);margin-top:14px;line-height:1.55;letter-spacing:.01em}
+.stat-src{font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(140,114,82,.55);margin-top:8px}
+@media(max-width:768px){.stats-g{grid-template-columns:1fr}.stat{border-right:none;border-bottom:1px solid rgba(245,240,232,.06);padding:64px 24px}}
+
+/* ═══ PHOTO STRIP ══════════════════════════════ */
+#strip{overflow:hidden;background:var(--ink);padding:0;line-height:0}
+.strip-track{display:flex;gap:3px;animation:roll 40s linear infinite;width:max-content}
+.strip-track:hover{animation-play-state:paused}
+@keyframes roll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.strip-img{width:380px;height:260px;flex-shrink:0;overflow:hidden}
+.strip-img img{filter:grayscale(25%) contrast(1.08);transition:filter .5s,transform .5s}
+.strip-img:hover img{filter:grayscale(0%) contrast(1.12);transform:scale(1.04)}
+
+/* ═══ TESTIMONIALS ═════════════════════════════ */
+#testi{background:var(--ink2);padding:100px 52px;position:relative;overflow:hidden}
+#testi::before{content:'';position:absolute;inset:0;background:url('https://wearejodigital.com/wp-content/uploads/2024/02/Mountain-BG-min-scaled.jpg') center 40%/cover no-repeat;opacity:.05;pointer-events:none}
+.testi-head{text-align:center;position:relative;z-index:1;margin-bottom:64px}
+
+/* Testimonial headline — LARGE */
+.testi-hl{font-family:var(--serif);font-size:clamp(48px,7vw,96px);font-weight:700;font-style:italic;color:var(--chalk);line-height:.88;letter-spacing:-.04em;text-shadow:0 2px 30px rgba(0,0,0,.5)}
+.testi-hl em{color:var(--gold);font-style:inherit}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;position:relative;z-index:1;max-width:1280px;margin:0 auto}
+.tc{background:rgba(245,240,232,.04);border:1px solid rgba(245,240,232,.07);overflow:hidden;position:relative;transition:transform .4s cubic-bezier(.22,1,.36,1),border-color .4s}
+.tc:hover{transform:translateY(-5px);border-color:rgba(201,169,110,.25)}
+.tc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--forest2),transparent);opacity:0;transition:opacity .4s}
+.tc:hover::before{opacity:1}
+.tc-photo{height:250px;overflow:hidden;position:relative}
+.tc-photo img{filter:grayscale(20%);transition:transform .6s,filter .6s}
+.tc:hover .tc-photo img{transform:scale(1.04);filter:grayscale(0%)}
+.tc-photo-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,8,.55) 0%,transparent 60%)}
+.tc-body{padding:28px 28px 32px}
+.tc-mark{font-family:var(--serif);font-size:60px;font-weight:700;color:var(--gold);opacity:.25;line-height:.7;display:block;margin-bottom:8px}
+
+/* Quote text — larger, higher contrast */
+.tc-q{font-size:15px;font-weight:500;color:rgba(245,240,232,.82);line-height:1.7;margin-bottom:20px;letter-spacing:.01em}
+.tc-name{font-size:12px;font-weight:700;color:var(--forest2);letter-spacing:.05em}
+.tc-co{font-size:11px;color:rgba(245,240,232,.35);margin-top:3px}
+@media(max-width:900px){.testi-grid{grid-template-columns:1fr}#testi{padding:80px 20px}}
+
+/* ═══ PROBLEM ══════════════════════════════════ */
+#problem{background:var(--ink);padding:100px 52px;border-top:1px solid rgba(201,169,110,.08);border-bottom:1px solid rgba(201,169,110,.08)}
+.problem-grid{display:grid;grid-template-columns:1fr 2.2fr;gap:80px;align-items:start;max-width:1280px;margin:0 auto}
+
+/* Problem statement — VERY large and dramatic */
+.problem-q{
+  font-family:var(--serif);
+  font-size:clamp(32px,4.2vw,60px);
+  font-weight:700;font-style:italic;
+  color:var(--chalk);
+  line-height:1.15;letter-spacing:-.02em;
+  margin-bottom:28px;
+}
+.problem-q em{color:var(--gold);font-style:inherit}
+.problem-body{font-size:17px;font-weight:400;color:rgba(245,240,232,.65);line-height:1.8;margin-bottom:32px}
+.problem-src{display:flex;align-items:center;gap:14px;margin-top:32px;padding-top:28px;border-top:1px solid rgba(245,240,232,.07);font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(245,240,232,.3)}
+.problem-src::before{content:'';display:block;width:28px;height:1px;background:rgba(245,240,232,.2)}
+@media(max-width:900px){.problem-grid{grid-template-columns:1fr;gap:36px}#problem{padding:80px 20px}}
+
+/* ═══ WHY ══════════════════════════════════════ */
+#why{background:var(--ink2);padding:100px 52px;border-bottom:1px solid rgba(201,169,110,.08)}
+.why-grid{display:grid;grid-template-columns:5fr 6fr;gap:100px;align-items:start;max-width:1280px;margin:0 auto}
+
+/* Section titles — LARGER */
+.sec-title{font-family:var(--serif);font-size:clamp(52px,7vw,96px);font-weight:700;font-style:italic;color:var(--chalk);line-height:.88;letter-spacing:-.04em;margin-bottom:28px;text-shadow:none}
+.sec-title em{color:var(--gold);font-style:inherit}
+.sec-body{font-size:17px;font-weight:400;color:rgba(245,240,232,.6);line-height:1.8;margin-bottom:32px}
+.why-list{display:flex;flex-direction:column}
+.why-item{display:grid;grid-template-columns:48px 1fr;gap:24px;padding:26px 0;border-bottom:1px solid rgba(245,240,232,.06);transition:background .2s}
+.why-item:first-child{border-top:1px solid rgba(245,240,232,.06)}
+.why-n{font-family:var(--serif);font-size:14px;font-weight:700;font-style:italic;color:var(--gold);padding-top:2px}
+.why-t{font-size:15px;font-weight:700;color:var(--chalk);margin-bottom:6px;letter-spacing:.01em}
+.why-d{font-size:14px;font-weight:400;color:rgba(245,240,232,.5);line-height:1.7}
+@media(max-width:900px){.why-grid{grid-template-columns:1fr;gap:52px}#why{padding:80px 20px}}
+
+/* ═══ FAQ ══════════════════════════════════════ */
+#faq{background:var(--ink);padding:100px 52px;border-bottom:1px solid rgba(201,169,110,.08)}
+.faq-grid{display:grid;grid-template-columns:5fr 6fr;gap:100px;align-items:start;max-width:1280px;margin:0 auto}
+.faq-item{border-bottom:1px solid rgba(245,240,232,.07)}
+.faq-q{width:100%;text-align:left;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:22px 0;gap:20px;font-family:var(--serif);font-size:18px;font-style:italic;font-weight:600;color:rgba(245,240,232,.75);transition:color .25s}
+.faq-q:hover{color:var(--chalk)}
+.faq-icon{flex-shrink:0;width:28px;height:28px;border:1.5px solid rgba(245,240,232,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .3s;color:rgba(245,240,232,.4)}
+.faq-item.open .faq-icon{background:var(--forest);border-color:var(--forest);color:var(--chalk);transform:rotate(45deg)}
+.faq-a{font-size:15px;font-weight:400;color:rgba(245,240,232,.55);line-height:1.8;max-height:0;overflow:hidden;transition:max-height .45s ease,padding .3s}
+.faq-item.open .faq-a{max-height:400px;padding-bottom:22px}
+@media(max-width:900px){.faq-grid{grid-template-columns:1fr;gap:48px}#faq{padding:80px 20px}}
+
+/* ═══ CTA ══════════════════════════════════════ */
+#cta{position:relative;min-height:80vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:100px 52px}
+.cta-bg{position:absolute;inset:0}
+.cta-bg img{width:100%;height:100%;object-fit:cover;animation:kenBurnsAlt 28s ease-in-out infinite alternate-reverse}
+@keyframes kenBurnsAlt{from{transform:scale(1.08) translateX(0)}to{transform:scale(1) translateX(1%)}}
+/* Extra dark so white text pops */
+.cta-ov{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,9,8,.98) 45%,rgba(10,9,8,.65) 100%),linear-gradient(to top,rgba(10,9,8,.9) 0%,transparent 50%)}
+.cta-in{position:relative;z-index:2;max-width:1280px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+
+/* CTA headline — HUGE */
+.cta-h{font-family:var(--serif);font-size:clamp(68px,10vw,150px);font-weight:700;font-style:italic;color:var(--chalk);line-height:.84;letter-spacing:-.05em;text-shadow:0 4px 40px rgba(0,0,0,.8)}
+.cta-h em{color:var(--gold);font-style:inherit}
+.cta-tag{font-size:12px;font-weight:600;color:rgba(245,240,232,.5);margin-bottom:24px;letter-spacing:.05em;display:block}
+.cta-sub{font-size:18px;font-weight:400;color:rgba(245,240,232,.65);line-height:1.65;margin-bottom:32px}
+.cta-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.cta-ph{display:flex;align-items:center;gap:8px;text-decoration:none;font-size:12px;font-weight:600;color:rgba(245,240,232,.5);border:1.5px solid rgba(245,240,232,.15);padding:14px 24px;border-radius:2px;transition:all .25s;letter-spacing:.04em}
+.cta-ph:hover{color:var(--chalk);border-color:rgba(245,240,232,.4)}
+.cta-ph svg{color:var(--forest2)}
+.cta-meta{font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,240,232,.2);margin-top:16px}
+@media(max-width:900px){.cta-in{grid-template-columns:1fr;gap:48px}#cta{padding:80px 20px}}
+
+/* ─── FOOTER CTA BAR ─── */
+.ftop{background:var(--forest);padding:36px 52px;position:relative;overflow:hidden}
+.ftop::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,169,110,.1) 0%,transparent 60%)}
+.ftop-in{max-width:1280px;margin:0 auto;position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.ftop-h{font-family:var(--serif);font-size:clamp(26px,3vw,44px);font-weight:700;font-style:italic;color:var(--chalk);line-height:1.05;letter-spacing:-.02em}
+.ftop-sub{font-size:14px;font-weight:400;color:rgba(253,250,245,.5);margin-top:5px}
+.ftop-ph{display:flex;align-items:center;gap:8px;text-decoration:none;font-size:13px;font-weight:600;color:rgba(253,250,245,.6);border:1.5px solid rgba(253,250,245,.18);padding:12px 18px;border-radius:2px;transition:all .2s}
+.ftop-ph:hover{color:var(--chalk);border-color:rgba(253,250,245,.45)}
+@media(max-width:700px){.ftop{padding:24px 20px}}
+
+/* ─── FOOTER ─── */
+footer{background:#060504;padding:72px 52px 40px;border-top:1px solid rgba(245,240,232,.03)}
+.f-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:2.2fr 1fr 1fr 1.3fr;gap:56px;padding-bottom:52px;border-bottom:1px solid rgba(245,240,232,.05)}
+.f-logo{font-family:var(--serif);font-size:26px;font-weight:700;font-style:italic;color:var(--cream);display:block;margin-bottom:14px;text-decoration:none}
+.f-logo em{color:var(--gold);font-style:inherit}
+.f-tag{font-size:13px;font-weight:400;color:rgba(245,240,232,.28);line-height:1.75;margin-bottom:22px}
+.f-cl{font-size:12px;color:rgba(245,240,232,.28);text-decoration:none;display:flex;align-items:center;gap:7px;transition:color .2s;margin-bottom:8px}
+.f-cl:hover{color:rgba(245,240,232,.7)}
+.f-socs{display:flex;gap:7px;margin-top:8px}
+.fsoc{width:34px;height:34px;border:1px solid rgba(245,240,232,.08);border-radius:2px;display:flex;align-items:center;justify-content:center;color:rgba(245,240,232,.28);font-size:10px;font-weight:700;text-decoration:none;transition:all .2s}
+.fsoc:hover{border-color:var(--forest2);color:var(--forest2)}
+.f-col h5{font-size:10px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(201,169,110,.55);margin-bottom:16px}
+.f-col a{font-size:13px;font-weight:400;color:rgba(245,240,232,.28);text-decoration:none;transition:color .2s;display:block;margin-bottom:9px}
+.f-col a:hover{color:rgba(245,240,232,.7)}
+.f-bk{display:block;margin-top:14px;text-align:center;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.28);border:1px solid rgba(245,240,232,.07);padding:11px;border-radius:2px;text-decoration:none;transition:all .2s}
+.f-bk:hover{border-color:rgba(245,240,232,.2);color:rgba(245,240,232,.6)}
+.f-btm{max-width:1280px;margin:0 auto;padding-top:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;font-size:11px;font-weight:400;color:rgba(245,240,232,.18);letter-spacing:.04em}
+.f-btm strong{color:var(--forest2);font-weight:700;letter-spacing:.2em}
+@media(max-width:900px){.f-grid{grid-template-columns:1fr 1fr;gap:36px}footer{padding:52px 20px 28px}}
+@media(max-width:560px){.f-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo"><em>J</em>aver</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#stats">Results</a></li>
+    <li><a href="#testi">Clients</a></li>
+    <li><a href="#cta">Contact</a></li>
+  </ul>
+  <div class="nav-r">
+    <a href="tel:+17808603865" class="nav-ph">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>
+      +1-780-860-3865
+    </a>
+    <a href="#cta" class="btn btn-g" style="font-size:11px;padding:12px 26px">Get a Proposal</a>
+  </div>
+</nav>
+
+<div class="mob" id="mob"><a href="#cta">Get a Free Proposal — 2 Minutes</a></div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg">
+    <img src="https://wearejodigital.com/wp-content/uploads/2024/02/Mountain-BG-min-scaled.jpg" alt="Javer">
+  </div>
+  <div class="hero-ov"></div>
+  <div class="hero-vign"></div>
+  <div class="hero-hor"></div>
+
+  <div class="hero-c">
+    <div class="hero-tag">Edmonton &amp; Calgary — Performance Marketing</div>
+    <h1 class="hero-h"><em class="g">J</em>aver.</h1>
+    <p class="hero-value">Data-driven marketing that delivers<br>real, measurable growth.</p>
+    <p class="hero-sub">Data-driven marketing strategies that deliver real,<br>measurable growth for serious businesses.</p>
+    <div class="hero-div"></div>
+    <div class="hero-urgency">Accepting new clients for Q3 2025</div>
+    <div class="hero-btm">
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a href="#cta" class="btn btn-g">Get a Free Proposal</a>
+        <a href="#stats" class="btn btn-o">View Results</a>
+      </div>
+      <a href="tel:+17808603865" class="hero-ph">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>
+        +1-780-860-3865
+      </a>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="tb">
+  <div class="tb-in">
+    <div style="display:flex;gap:28px;flex-wrap:wrap">
+      <div class="tb-p">Google Partner</div>
+      <div class="tb-p">Meta Business Partner</div>
+      <div class="tb-p">Microsoft Advertising</div>
+    </div>
+    <div style="display:flex;gap:0;flex-wrap:wrap">
+      <div class="tb-s">100+<span class="tb-sl">Clients<br>Served</span></div>
+      <div class="tb-s" style="margin-left:20px">25×<span class="tb-sl">Best<br>ROI</span></div>
+      <div class="tb-s" style="margin-left:20px">4+ yrs<span class="tb-sl">In<br>Business</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- MANIFESTO -->
+<section id="manifesto">
+  <div class="manifesto-grid">
+    <div data-r="u"><div class="eyebrow">The Problem</div></div>
+    <div data-r="u" style="transition-delay:.08s">
+      <p class="mq">Your competitors are outspending you. Your cost-per-lead is climbing. <em>Your data is unreliable.</em> Most agencies are still running the old playbook.</p>
+      <p style="font-size:17px;font-weight:400;color:rgba(245,240,232,.6);line-height:1.8;margin-top:24px;margin-bottom:28px">Javer was built for the new era — where brand identity, creative quality, and data precision have to work together. No vanity metrics. No wasted spend.</p>
+      <a href="#why" class="btn btn-f" style="font-size:11px">See How We Solve It →</a>
+      <div class="mq-source">— The Javer approach, since 2019</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="svc-grid">
+    <div class="svc-card">
+      <div class="svc-img"><img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&q=85&auto=format&fit=crop" alt="Web Design" loading="lazy"></div>
+      <div class="svc-ov"></div><div class="svc-line"></div>
+      <div class="svc-txt"><div class="svc-n">01</div><div class="svc-name">Website Design</div><p class="svc-desc">Conversion-first design that turns visitors into revenue around the clock.</p><a href="#cta" class="svc-cta">Get a Quote ↗</a></div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-img"><img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=900&q=85&auto=format&fit=crop" alt="Strategy" loading="lazy"></div>
+      <div class="svc-ov"></div><div class="svc-line"></div>
+      <div class="svc-txt"><div class="svc-n">02</div><div class="svc-name">Digital Strategy</div><a href="#cta" class="svc-cta">Learn More ↗</a></div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-img"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=85&auto=format&fit=crop" alt="Google Ads" loading="lazy"></div>
+      <div class="svc-ov"></div><div class="svc-line"></div>
+      <div class="svc-txt"><div class="svc-n">03</div><div class="svc-name">Google Ads</div><a href="#cta" class="svc-cta">Free Audit ↗</a></div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-img"><img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=900&q=85&auto=format&fit=crop" alt="Meta" loading="lazy"></div>
+      <div class="svc-ov"></div><div class="svc-line"></div>
+      <div class="svc-txt"><div class="svc-n">04</div><div class="svc-name">Facebook & Instagram</div><a href="#cta" class="svc-cta">Free Audit ↗</a></div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-img"><img src="https://images.unsplash.com/photo-1562577309-4932fdd64cd1?w=900&q=85&auto=format&fit=crop" alt="SEO" loading="lazy"></div>
+      <div class="svc-ov"></div><div class="svc-line"></div>
+      <div class="svc-txt"><div class="svc-n">05</div><div class="svc-name">SEO</div><a href="#cta" class="svc-cta">Free Audit ↗</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section id="vid">
+  <div class="vid-frame">
+    <iframe src="https://www.youtube.com/embed/G0ER7tFNxck?autoplay=1&mute=1&loop=1&controls=0&playlist=G0ER7tFNxck&rel=0" allow="autoplay; fullscreen" title="Javer Reel"></iframe>
+    <div class="vid-fallback"></div>
+  </div>
+  <div class="vid-ov"></div>
+  <div class="vid-txt">
+    <div data-r="u"><span class="vid-lbl">Edmonton & Calgary</span></div>
+    <div data-r="u" style="transition-delay:.08s"><h2 class="vid-h">Built for<br><em>Results.</em></h2></div>
+    <div data-r="u" style="transition-delay:.16s"><a href="#cta" class="btn btn-g">Get a Proposal</a></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stats-g">
+    <div class="stat" data-counter="25">
+      <div class="stat-line"></div>
+      <div class="stat-n"><span class="si">0</span><span class="stat-sfx">×</span></div>
+      <div class="stat-lbl">ROI increase — single paid media campaign</div>
+      <div class="stat-src">E-commerce client, Edmonton · 2023</div>
+    </div>
+    <div class="stat" data-counter="175">
+      <div class="stat-line"></div>
+      <div class="stat-n"><span class="si">0</span><span class="stat-sfx">%</span></div>
+      <div class="stat-lbl">increase in online store orders within 90 days</div>
+      <div class="stat-src">Home goods retailer, Alberta · 2024</div>
+    </div>
+    <div class="stat" data-counter="100">
+      <div class="stat-line"></div>
+      <div class="stat-n"><span class="si">0</span><span class="stat-sfx">+</span></div>
+      <div class="stat-lbl">clients across dental, construction, legal & more</div>
+      <div class="stat-src">Since founding in 2019</div>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTO STRIP -->
+<section id="strip">
+  <div class="strip-track">
+    <div class="strip-img"><img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&q=75&auto=format&fit=crop" alt="" loading="lazy"></div>
+    <div class="strip-img"><img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=600&q=75&auto=format&fit=crop" alt="" loading="lazy"></div>
+    <div class="strip-img"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=75&auto=format&fit=crop" alt="" loading="lazy"></div>
+    <div class="strip-img"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=75&auto=format&fit=crop" alt="" loading="lazy"></div>
+    <div class="strip-img"><img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&q=75&auto=format&fit=crop" alt="" loading="lazy"></div>
+    <div class="strip-img"><img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&q=75&auto=format&fit=crop" alt="" loading="lazy"></div>
+    <div class="strip-img"><img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&q=75&auto=format&fit=crop" alt="" loading="lazy"></div>
+    <div class="strip-img"><img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=600&q=75&auto=format&fit=crop" alt="" loading="lazy"></div>
+    <div class="strip-img"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=75&auto=format&fit=crop" alt="" loading="lazy"></div>
+    <div class="strip-img"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=75&auto=format&fit=crop" alt="" loading="lazy"></div>
+    <div class="strip-img"><img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&q=75&auto=format&fit=crop" alt="" loading="lazy"></div>
+    <div class="strip-img"><img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&q=75&auto=format&fit=crop" alt="" loading="lazy"></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testi">
+  <div class="testi-head">
+    <div data-r="u"><h2 class="testi-hl">What our clients <em>say.</em></h2></div>
+  </div>
+  <div class="testi-grid">
+    <div class="tc" data-r="s">
+      <div class="tc-photo"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=85&auto=format&fit=crop&crop=faces" alt="Danielle Goodman" loading="lazy"><div class="tc-photo-ov"></div></div>
+      <div class="tc-body">
+        <span class="tc-mark">&ldquo;</span>
+        <p class="tc-q">Since beginning my partnership with Javer in 2020, the impact on my business has been transformative. I am inundated with more leads than I can handle.</p>
+        <div class="tc-name">Danielle Goodman</div><div class="tc-co">DTT Services, Edmonton</div>
+      </div>
+    </div>
+    <div class="tc" data-r="s" style="transition-delay:.1s">
+      <div class="tc-photo"><img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=85&auto=format&fit=crop&crop=faces" alt="Nnenna Ibeakanma" loading="lazy"><div class="tc-photo-ov"></div></div>
+      <div class="tc-body">
+        <span class="tc-mark">&ldquo;</span>
+        <p class="tc-q">My accounting firm had been relying on referrals. Javer introduced me to data-driven strategy — results exceeded every expectation.</p>
+        <div class="tc-name">Nnenna Ibeakanma</div><div class="tc-co">Diamond Accounting, Alberta</div>
+      </div>
+    </div>
+    <div class="tc" data-r="s" style="transition-delay:.2s">
+      <div class="tc-photo"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=85&auto=format&fit=crop&crop=faces" alt="Minas H." loading="lazy"><div class="tc-photo-ov"></div></div>
+      <div class="tc-body">
+        <span class="tc-mark">&ldquo;</span>
+        <p class="tc-q">A perfect example of a professional, result-oriented agency. Their knowledge is exceptional and they genuinely care about outcomes, not just deliverables.</p>
+        <div class="tc-name">Minas H.</div><div class="tc-co">Client, Calgary</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM / BELIEF -->
+<section id="problem">
+  <div class="problem-grid">
+    <div data-r="u"><div class="eyebrow">Why Javer</div></div>
+    <div data-r="u" style="transition-delay:.08s">
+      <p class="problem-q">Boutique agility with <em>enterprise-grade</em> expertise. We adapt fast, stay honest, and take genuine ownership of results.</p>
+      <div class="why-list">
+        <div class="why-item"><span class="why-n">I.</span><div><div class="why-t">Diverse Experience</div><p class="why-d">B2B and B2C across dental, construction, legal, retail, real estate, e-commerce, and more. 100+ clients over 4+ years.</p></div></div>
+        <div class="why-item"><span class="why-n">II.</span><div><div class="why-t">Platform Partnerships</div><p class="why-d">Google, Meta, and Microsoft partnerships give us access to betas, priority support, and exclusive training.</p></div></div>
+        <div class="why-item"><span class="why-n">III.</span><div><div class="why-t">Privacy-First by Default</div><p class="why-d">Cookieless tracking, consent management, and server-side measurement built into every engagement.</p></div></div>
+        <div class="why-item"><span class="why-n">IV.</span><div><div class="why-t">Transparent Partnership</div><p class="why-d">Monthly reviews, live dashboards, and honest conversations. You always know exactly where your money goes.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="faq-grid">
+    <div>
+      <div class="eyebrow" data-r="u">Questions</div>
+      <h2 class="sec-title" data-r="u" style="transition-delay:.06s">Frequently<br/>Asked.</h2>
+    </div>
+    <div data-r="r">
+      <div class="faq-item open"><button class="faq-q" onclick="toggleFaq(this)">What makes Javer different?<span class="faq-icon">+</span></button><div class="faq-a">Three main factors: Diverse Experience across B2B and B2C. Knowledge — long-standing Google, Meta, and Microsoft partnerships. Adaptability — boutique agility means we improve ROI fast.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What type of clients do you work with?<span class="faq-icon">+</span></button><div class="faq-a">Over 100 clients from diverse industries — dental, beauty, construction, law, trades, manufacturing, real estate, education, and more across both B2B and B2C.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How much do your services cost?<span class="faq-icon">+</span></button><div class="faq-a">Every project is unique. Fill out our proposal form to get a customized quote — free, takes 2 minutes.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How quickly will I see results?<span class="faq-icon">+</span></button><div class="faq-a">Paid media can drive results within weeks. SEO and brand-building are longer-term investments. We set clear expectations during onboarding and update you every step of the way.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How can I get in touch?<span class="faq-icon">+</span></button><div class="faq-a">Fill out the proposal form, call +1-780-860-3865, or email markus.tran@wearejodigital.com. We respond within one business day.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-bg"><img src="https://wearejodigital.com/wp-content/uploads/2024/02/Mountain-BG-min-scaled.jpg" alt="" loading="lazy"></div>
+  <div class="cta-ov"></div>
+  <div class="cta-in">
+    <div data-r="u"><h2 class="cta-h">Let us<br/><em>Prove</em><br/>It.</h2></div>
+    <div data-r="u" style="transition-delay:.1s">
+      <span class="cta-tag">Currently accepting new clients for Q3 2025 — spots limited</span>
+      <p class="cta-sub">Free proposal — no templates, no fluff, no wasted meetings.</p>
+      <div class="cta-btns">
+        <a href="#" class="btn btn-g" style="font-size:12px;padding:17px 44px">Get a Free Proposal</a>
+        <a href="tel:+17808603865" class="cta-ph"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>+1-780-860-3865</a>
+      </div>
+      <p class="cta-meta">markus.tran@wearejodigital.com · Edmonton, AB · javer.ca</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER CTA BAR -->
+<div class="ftop">
+  <div class="ftop-in">
+    <div><p class="ftop-h">Ready to grow? Let's talk.</p><p class="ftop-sub">Free proposal — no obligation, no templates.</p></div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <a href="tel:+17808603865" class="ftop-ph"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>+1-780-860-3865</a>
+      <a href="#" class="btn" style="background:var(--chalk);color:var(--forest);font-size:11px;padding:13px 26px">Get a Proposal →</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-grid">
+    <div>
+      <a href="#" class="f-logo"><em>J</em>aver</a>
+      <p class="f-tag">Performance digital marketing.<br>Edmonton & Calgary, Alberta.<br>Data-driven. ROI-obsessed.</p>
+      <a href="tel:+17808603865" class="f-cl"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>+1-780-860-3865</a>
+      <a href="mailto:markus.tran@wearejodigital.com" class="f-cl"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>markus.tran@wearejodigital.com</a>
+      <div class="f-socs"><a href="#" class="fsoc">f</a><a href="#" class="fsoc">in</a><a href="#" class="fsoc">ig</a><a href="#" class="fsoc">tk</a></div>
+    </div>
+    <div class="f-col"><h5>Services</h5><a href="#">Web Design</a><a href="#">Digital Strategy</a><a href="#">Google Ads</a><a href="#">Meta Advertising</a><a href="#">SEO</a><a href="#">Analytics</a></div>
+    <div class="f-col"><h5>Company</h5><a href="#">About</a><a href="#">Process</a><a href="#">Case Studies</a><a href="#">Blog</a></div>
+    <div class="f-col"><h5>Contact</h5><a href="#">Get a Proposal</a><a href="#">+1-780-860-3865</a><a href="#">markus.tran@wearejodigital.com</a><a href="#">Edmonton, AB</a><a href="#">Calgary, AB</a><a href="#" class="f-bk">📅 Book a Discovery Call</a></div>
+  </div>
+  <div class="f-btm"><span>© 2025 Javer Digital Marketing Inc. All rights reserved.</span><strong>JAVER.CA</strong></div>
+</footer>
+
+<script>
+// PROGRESS
+window.addEventListener('scroll',()=>{document.getElementById('prog').style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%'},{passive:true})
+
+// NAV + MOBILE
+const nav=document.getElementById('nav'),mob=document.getElementById('mob')
+window.addEventListener('scroll',()=>{nav.classList.toggle('s',scrollY>60);mob.classList.toggle('show',scrollY>360)},{passive:true})
+
+// REVEAL
+const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');ro.unobserve(e.target)}})},{threshold:.1,rootMargin:'0px 0px -30px 0px'})
+document.querySelectorAll('[data-r]').forEach(el=>ro.observe(el))
+
+// COUNTERS
+const fired=new WeakSet()
+const co=new IntersectionObserver(entries=>{entries.forEach(e=>{if(!e.isIntersecting||fired.has(e.target))return;fired.add(e.target);e.target.classList.add('counted');const target=+e.target.dataset.counter,el=e.target.querySelector('.si'),dur=2000,t0=performance.now();(function tick(now){const p=Math.min((now-t0)/dur,1),ease=1-(1-p)**3;el.textContent=Math.round(ease*target);if(p<1)requestAnimationFrame(tick);else el.textContent=target})(performance.now())})},{threshold:.25})
+document.querySelectorAll('.stat[data-counter]').forEach(el=>co.observe(el))
+
+// FAQ
+function toggleFaq(btn){const item=btn.closest('.faq-item'),isOpen=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!isOpen)item.classList.add('open')}
+
+// MAGNETIC BUTTONS
+document.querySelectorAll('.btn').forEach(btn=>{btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.15}px,${(e.clientY-r.top-r.height/2)*.15}px) translateY(-1px)`});btn.addEventListener('mouseleave',()=>btn.style.transform='')})
+
+// 3D TILT ON TESTIMONIALS
+document.querySelectorAll('.tc').forEach(c=>{c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`translateY(-5px) rotateX(${-y*7}deg) rotateY(${x*7}deg)`});c.addEventListener('mouseleave',()=>c.style.transform='')})
+</script>
+</body>
+</html>
