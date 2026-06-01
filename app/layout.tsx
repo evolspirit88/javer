@@ -35,8 +35,8 @@ const schema = {
   '@type': 'LocalBusiness',
   name: 'Javer Digital Marketing',
   url: 'https://javer.ca',
-  telephone: '+1-587-404-0050',
-  email: 'hello@javer.ca',
+  telephone: '+1-780-860-3865',
+  email: 'markus.tran@wearejodigital.com',
   address: [
     { '@type': 'PostalAddress', addressLocality: 'Edmonton', addressRegion: 'AB', addressCountry: 'CA' },
     { '@type': 'PostalAddress', addressLocality: 'Calgary',  addressRegion: 'AB', addressCountry: 'CA' },
