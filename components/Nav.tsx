@@ -4,8 +4,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X, Phone } from 'lucide-react'
 
-const PHONE = '+1-587-404-0050'
-const TEL   = 'tel:+15874040050'
+const PHONE = '+1-780-860-3865'
+const TEL   = 'tel:+17808603865'
 
 const links = [
   { label: 'About',    href: '/about' },

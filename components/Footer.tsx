@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { Phone, Mail } from 'lucide-react'
 
-const TEL   = 'tel:+15874040050'
-const PHONE = '+1-587-404-0050'
-const EMAIL = 'hello@javer.ca'
+const TEL   = 'tel:+17808603865'
+const PHONE = '+1-780-860-3865'
+const EMAIL = 'markus.tran@wearejodigital.com'
 
 const SERVICES = [
   ['Web Design',       '/services/web-design'],

@@ -170,6 +170,10 @@
     0%, 100% { opacity: .35; }
     50%       { opacity: 1; }
   }
+  @keyframes urgPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: .5; transform: scale(.75); }
+  }
   @keyframes statLine {
     from { width: 0; }
     to   { width: 100%; }
