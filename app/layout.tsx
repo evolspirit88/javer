@@ -54,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script id="schema" type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       </head>
-      <body className="grain-wrap" style={{ fontFamily: 'var(--font-dm-sans), system-ui, sans-serif', background: '#0A0908', color: '#F0EBE1', overflowX: 'hidden' }}>
+      <body className="grain-wrap" style={{ fontFamily: 'var(--font-dm-sans), system-ui, sans-serif', overflowX: 'hidden' }}>
         <div id="progress-bar" />
         <Nav />
         <main>{children}</main>

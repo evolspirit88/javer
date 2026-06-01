@@ -6,15 +6,27 @@
    DESIGN TOKENS
 ═══════════════════════════════════════════ */
 :root {
+  /* ── Dark palette (ink sections: video, stats, CTA, footer) ── */
   --ink:       #0A0908;
   --ink2:      #141210;
   --ink3:      #1C1A17;
   --ink4:      #252220;
+  /* ── Accent ── */
   --gold:      #C9A96E;
   --gold2:     #E8C882;
   --forest:    #2B4237;
   --forest2:   #3D5E50;
   --forest3:   #4F7A68;
+  /* ── Light editorial palette (body + light sections) ── */
+  --bg:        #FAFAF8;
+  --bg2:       #F4EFE6;
+  --bg3:       #EDE7DB;
+  --text:      #0E0D0C;
+  --text2:     #4A4742;
+  --text3:     #8A8580;
+  --line:      rgba(14,13,12,.10);
+  --line2:     rgba(14,13,12,.06);
+  /* ── Retained for dark-section components ── */
   --parchment: #F0EBE1;
   --chalk:     #FAF8F4;
   --amber:     #8C6A3C;
@@ -34,15 +46,15 @@
 
   body {
     font-family: var(--sans);
-    background: var(--ink);
-    color: var(--parchment);
+    background: var(--bg);
+    color: var(--text);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
   }
 
   ::-webkit-scrollbar { width: 2px; }
-  ::-webkit-scrollbar-track { background: var(--ink); }
+  ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 1px; }
 
   img { display: block; width: 100%; height: 100%; object-fit: cover; }
@@ -55,7 +67,7 @@
   content: '';
   position: fixed; inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: .04;
+  opacity: .025;
   pointer-events: none;
   z-index: 9990;
 }
@@ -101,8 +113,10 @@
   }
   .btn-g  { background: var(--gold); color: var(--ink); }
   .btn-g:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(201,169,110,.25); }
-  .btn-o  { background: transparent; color: var(--parchment); border: 1px solid rgba(240,235,225,.2); }
-  .btn-o:hover { border-color: rgba(240,235,225,.5); transform: translateY(-1px); }
+  .btn-o  { background: transparent; color: var(--text); border: 1px solid var(--line); }
+  .btn-o:hover { border-color: rgba(14,13,12,.35); transform: translateY(-1px); }
+  .btn-o-inv { background: transparent; color: var(--parchment); border: 1px solid rgba(240,235,225,.2); }
+  .btn-o-inv:hover { border-color: rgba(240,235,225,.5); transform: translateY(-1px); }
   .btn-f  { background: var(--forest); color: var(--chalk); }
   .btn-f:hover { background: var(--forest2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(43,66,55,.3); }
   .btn-sm { padding: 11px 22px; font-size: 10px; }

@@ -9,12 +9,12 @@ const PHOTOS = [
   'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&q=75&auto=format&fit=crop',
 ]
 const S = `
-  .ps { overflow:hidden; background:var(--ink); padding:0; line-height:0; }
+  .ps { overflow:hidden; background:var(--bg3); padding:0; line-height:0; }
   .ps-track { display:flex; gap:3px; animation:stripScroll 40s linear infinite; width:max-content; }
   .ps-track:hover { animation-play-state:paused; }
   .ps-img { width:380px; height:260px; flex-shrink:0; overflow:hidden; position:relative; }
-  .ps-img img { width:100%; height:100%; object-fit:cover; filter:grayscale(30%) contrast(1.05); transition:filter .5s,transform .5s; display:block; }
-  .ps-img:hover img { filter:grayscale(0%) contrast(1.1); transform:scale(1.04); }
+  .ps-img img { width:100%; height:100%; object-fit:cover; filter:grayscale(40%) contrast(1.05) brightness(.97); transition:filter .6s,transform .6s; display:block; }
+  .ps-img:hover img { filter:grayscale(0%) contrast(1.1) brightness(1); transform:scale(1.04); }
 `
 export default function PhotoStrip() {
   const doubled = [...PHOTOS, ...PHOTOS]

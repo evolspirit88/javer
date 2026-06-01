@@ -16,14 +16,21 @@ const links = [
 ]
 
 const NAV_STYLES = `
-  .jav-nav { position:fixed;top:0;left:0;right:0;z-index:800;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;border-bottom:1px solid transparent;transition:all .4s; }
-  .jav-nav.scrolled { background:rgba(10,9,8,.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom-color:rgba(201,169,110,.08); }
-  .jav-nav-link { font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,235,225,.35);text-decoration:none;padding:10px 14px;transition:color .2s; }
-  .jav-nav-link:hover { color:var(--parchment); }
-  .jav-phone { font-size:11px;font-weight:500;color:rgba(240,235,225,.38);text-decoration:none;display:flex;align-items:center;gap:6px;letter-spacing:.03em;transition:color .2s; }
+  .jav-nav { position:fixed;top:0;left:0;right:0;z-index:800;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;border-bottom:1px solid transparent;transition:background .4s,border-color .4s,box-shadow .4s; }
+  .jav-nav.scrolled { background:rgba(250,250,248,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom-color:rgba(14,13,12,.07);box-shadow:0 1px 24px rgba(14,13,12,.05); }
+  .jav-logo { font-family:var(--serif);font-size:22px;font-weight:600;font-style:italic;color:var(--chalk);text-decoration:none;transition:color .4s; }
+  .jav-logo em { color:var(--gold);font-style:inherit; }
+  .jav-nav.scrolled .jav-logo { color:var(--text); }
+  .jav-nav-link { font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(250,248,244,.5);text-decoration:none;padding:10px 14px;transition:color .2s; }
+  .jav-nav-link:hover { color:var(--chalk); }
+  .jav-nav.scrolled .jav-nav-link { color:rgba(14,13,12,.4); }
+  .jav-nav.scrolled .jav-nav-link:hover { color:var(--text); }
+  .jav-phone { font-size:11px;font-weight:500;color:rgba(250,248,244,.38);text-decoration:none;display:flex;align-items:center;gap:6px;letter-spacing:.03em;transition:color .2s; }
   .jav-phone:hover { color:var(--gold); }
-  .mob-menu { position:fixed;inset:0;background:var(--ink);z-index:700;display:flex;flex-direction:column;padding-top:72px; }
-  .mob-link { font-family:var(--serif);font-size:32px;font-weight:600;font-style:italic;color:var(--parchment);text-decoration:none;padding:20px 24px;border-bottom:1px solid rgba(240,235,225,.06);display:block; }
+  .jav-nav.scrolled .jav-phone { color:rgba(14,13,12,.4); }
+  .jav-nav.scrolled .jav-phone:hover { color:var(--gold); }
+  .mob-menu { position:fixed;inset:0;background:var(--bg);z-index:700;display:flex;flex-direction:column;padding-top:72px; }
+  .mob-link { font-family:var(--serif);font-size:32px;font-weight:600;font-style:italic;color:var(--text);text-decoration:none;padding:20px 24px;border-bottom:1px solid var(--line2);display:block; }
   #mob-cta { display:none;position:fixed;bottom:0;left:0;right:0;z-index:600;background:var(--forest);padding:12px 16px;transform:translateY(100%);transition:transform .35s cubic-bezier(.22,1,.36,1); }
   #mob-cta.show { transform:translateY(0); }
   #mob-cta a { display:block;text-align:center;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--chalk);text-decoration:none;background:rgba(255,255,255,.1);padding:15px;border-radius:1px; }
@@ -39,8 +46,8 @@ export default function Nav() {
     <>
       <style>{NAV_STYLES}</style>
       <nav className="jav-nav" id="jav-nav">
-        <Link href="/" style={{ fontFamily:'var(--serif)', fontSize:22, fontWeight:600, fontStyle:'italic', color:'var(--parchment)', textDecoration:'none' }}>
-          <em style={{ color:'var(--gold)', fontStyle:'inherit' }}>J</em>aver
+        <Link href="/" className="jav-logo">
+          <em>J</em>aver
         </Link>
 
         <ul className="nav-desktop" style={{ display:'flex', alignItems:'center', gap:0, listStyle:'none' }}>

@@ -2,18 +2,18 @@
 import { useEffect, useRef, useState } from 'react'
 
 const S = `
-  .stats-s { background:var(--ink3); padding:0; position:relative; overflow:hidden; }
-  .stats-s::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 20% 50%,rgba(43,66,55,.15) 0%,transparent 60%),radial-gradient(ellipse 60% 80% at 80% 50%,rgba(201,169,110,.06) 0%,transparent 60%); pointer-events:none; }
+  .stats-s { background:var(--ink); padding:0; position:relative; overflow:hidden; }
+  .stats-s::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 20% 50%,rgba(43,66,55,.1) 0%,transparent 60%),radial-gradient(ellipse 60% 80% at 80% 50%,rgba(201,169,110,.05) 0%,transparent 60%); pointer-events:none; }
   .stats-g { max-width:1280px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); position:relative; z-index:1; }
   .stat-i { padding:96px 52px; border-right:1px solid rgba(240,235,225,.05); position:relative; overflow:hidden; transition:background .4s; }
   .stat-i:last-child { border-right:none; }
   .stat-i:hover { background:rgba(240,235,225,.02); }
   .stat-line { position:absolute; top:0; left:0; height:3px; width:0; background:linear-gradient(90deg,var(--gold),var(--forest2)); transition:width .8s .1s cubic-bezier(.22,1,.36,1); }
   .stat-i.counted .stat-line { width:100%; }
-  .stat-n { font-family:var(--serif); font-weight:700; font-style:italic; font-size:clamp(80px,10vw,130px); color:var(--chalk); line-height:1; display:flex; align-items:flex-start; text-shadow:0 2px 30px rgba(0,0,0,.5); }
+  .stat-n { font-family:var(--serif); font-weight:700; font-style:italic; font-size:clamp(80px,10vw,130px); color:var(--chalk); line-height:1; display:flex; align-items:flex-start; }
   .stat-sfx { font-family:var(--serif); font-size:.4em; color:var(--gold); line-height:1.5; margin-top:8px; }
-  .stat-lbl { font-size:16px; font-weight:500; color:rgba(240,235,225,.6); margin-top:14px; line-height:1.55; letter-spacing:.01em; }
-  .stat-src { font-size:10px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:rgba(140,114,82,.55); margin-top:8px; font-family:var(--sans); }
+  .stat-lbl { font-size:16px; font-weight:500; color:rgba(240,235,225,.55); margin-top:14px; line-height:1.55; letter-spacing:.01em; }
+  .stat-src { font-size:10px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:rgba(140,114,82,.5); margin-top:8px; font-family:var(--sans); }
   @media(max-width:768px) { .stats-g { grid-template-columns:1fr; } .stat-i { border-right:none; border-bottom:1px solid rgba(240,235,225,.05); padding:64px 24px; } }
 `
 
